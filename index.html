@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ApunteListo: organiza tus tareas escolares, controles y fechas de entrega de forma sencilla y divertida.">
+  <meta name="theme-color" content="#e8f7ff">
+  <title>ApunteListo · Organiza tus tareas, llega listo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Enlace para navegar con teclado directamente al contenido principal -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!--
+    Sprite de iconos: todos los dibujos están en este mismo archivo.
+    Así la página funciona sin bajar imágenes de internet.
+  -->
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-libreta" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="3" width="14" height="18" rx="3"></rect>
+        <path d="M9 3v18"></path>
+        <path d="M12.5 8h3.5M12.5 12h3.5M12.5 16h2.5"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-lapiz" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m4 20 1-4.5L16.2 4.3a2.1 2.1 0 0 1 3 3L8 18.5 4 20Z"></path>
+        <path d="m14.5 5.5 4 4"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-lista" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 6h11M9 12h11M9 18h11"></path>
+        <path d="m3.5 6 1.2 1.2L7 5"></path>
+        <path d="m3.5 12 1.2 1.2L7 11"></path>
+        <path d="m3.5 18 1.2 1.2L7 17"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-libro" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5Z"></path>
+        <path d="M4 5.5v16"></path>
+        <path d="M8 7.5h8"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-calendario" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3.5" y="5" width="17" height="16" rx="3"></rect>
+        <path d="M8 3v4M16 3v4M3.5 10h17"></path>
+        <path d="M8 14h2M14 14h2M8 18h2"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-bandera" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 21V4"></path>
+        <path d="M5 5h13l-2.5 4L18 13H5"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m5 12.5 4.5 4.5L19 7"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-editar" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m4 20 1-4.5L16.2 4.3a2.1 2.1 0 0 1 3 3L8 18.5 4 20Z"></path>
+        <path d="m14.5 5.5 4 4"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-basura" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 7h16"></path>
+        <path d="M9 7V4h6v3"></path>
+        <path d="m7 7 1 13h8l1-13"></path>
+        <path d="M10 11v6M14 11v6"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-buscar" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10.5" cy="10.5" r="6.5"></circle>
+        <path d="m15.5 15.5 5 5"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-mas" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12h14"></path>
+      </g>
+    </symbol>
+
+    <symbol id="i-olas" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"></path>
+        <path d="M2 15c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"></path>
+      </g>
+    </symbol>
+  </svg>
+
+  <!--
+    Fondo de olas: 3 capas SVG con el mismo patrón repetido dos veces.
+    Al mover cada capa exactamente la mitad, el loop no tiene salto.
+  -->
+  <div class="waves" id="olas" aria-hidden="true">
+    <div class="ola ola--azul">
+      <svg viewBox="0 0 2880 220" preserveAspectRatio="none" focusable="false">
+        <path d="M0,140 C240,200 480,80 720,140 C960,200 1200,80 1440,140 C1680,200 1920,80 2160,140 C2400,200 2640,80 2880,140 L2880,220 L0,220 Z"></path>
+      </svg>
+    </div>
+    <div class="ola ola--turquesa">
+      <svg viewBox="0 0 2880 220" preserveAspectRatio="none" focusable="false">
+        <path d="M0,110 C240,50 480,170 720,110 C960,50 1200,170 1440,110 C1680,50 1920,170 2160,110 C2400,50 2640,170 2880,110 L2880,220 L0,220 Z"></path>
+      </svg>
+    </div>
+    <div class="ola ola--clara">
+      <svg viewBox="0 0 2880 220" preserveAspectRatio="none" focusable="false">
+        <path d="M0,80 C240,140 480,20 720,80 C960,140 1200,20 1440,80 C1680,140 1920,20 2160,80 C2400,140 2640,20 2880,80 L2880,220 L0,220 Z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="app">
+    <header class="cabecera">
+      <div class="marca">
+        <span class="logo-icona" aria-hidden="true">
+          <svg class="ico-logo"><use href="#i-libreta"></use></svg>
+          <svg class="ico-lapiz"><use href="#i-lapiz"></use></svg>
+        </span>
+        <div>
+          <h1>ApunteListo</h1>
+          <p class="eslogan">Organiza tus tareas, llega listo</p>
+        </div>
+      </div>
+
+      <div class="cabecera-derecha">
+        <p class="saludo" id="saludo">¡Hola, estudiante!</p>
+        <button class="btn btn-olas" type="button" id="btnOlas" aria-pressed="true" aria-label="Pausar animación de las olas">
+          <svg class="ico" aria-hidden="true"><use href="#i-olas"></use></svg>
+          <span id="textoOlas">Pausar olas</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="contenido" id="contenido">
+      <!-- PASO 1: crear o editar una tarea -->
+      <section class="panel panel-formulario" aria-labelledby="tituloFormulario">
+        <div class="panel-cabecera">
+          <span class="icono-panel" aria-hidden="true"><svg class="ico"><use href="#i-lista"></use></svg></span>
+          <div>
+            <h2 id="tituloFormulario">Nueva tarea</h2>
+            <p class="panel-subtitulo">Completa los datos y listo</p>
+          </div>
+        </div>
+
+        <form id="formulario" novalidate>
+          <p class="aviso-edicion" id="avisoEdicion" hidden>
+            Editando: <strong id="tituloEditando"></strong>
+            <button class="btn-link" type="button" id="btnCancelar">Cancelar edición</button>
+          </p>
+
+          <div class="campo">
+            <label for="titulo">Título de la tarea <span class="obligatorio" aria-hidden="true">*</span></label>
+            <div class="input-con-icono">
+              <svg class="ico" aria-hidden="true"><use href="#i-lista"></use></svg>
+              <input id="titulo" name="titulo" type="text" maxlength="90" autocomplete="off"
+                     placeholder="Ej.: Estudiar para el control de historia"
+                     aria-describedby="errorTitulo" required>
+            </div>
+            <p class="error" id="errorTitulo" role="alert"></p>
+          </div>
+
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="materia">Materia <span class="obligatorio" aria-hidden="true">*</span></label>
+              <div class="input-con-icono">
+                <svg class="ico" aria-hidden="true"><use href="#i-libro"></use></svg>
+                <input id="materia" name="materia" type="text" list="listaMaterias" maxlength="40" autocomplete="off"
+                       placeholder="Ej.: Matemáticas" aria-describedby="errorMateria" required>
+                <datalist id="listaMaterias"></datalist>
+              </div>
+              <p class="error" id="errorMateria" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="fecha">Fecha de entrega <span class="obligatorio" aria-hidden="true">*</span></label>
+              <div class="input-con-icono">
+                <svg class="ico" aria-hidden="true"><use href="#i-calendario"></use></svg>
+                <input id="fecha" name="fecha" type="date" aria-describedby="errorFecha" required>
+              </div>
+              <p class="error" id="errorFecha" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="prioridad">Prioridad <span class="obligatorio" aria-hidden="true">*</span></label>
+            <div class="input-con-icono">
+              <svg class="ico" aria-hidden="true"><use href="#i-bandera"></use></svg>
+              <select id="prioridad" name="prioridad" aria-describedby="errorPrioridad" required>
+                <option value="">Elige una prioridad</option>
+                <option value="baja">Baja · con calma</option>
+                <option value="media">Media · pronto</option>
+                <option value="alta">Alta · ¡ya!</option>
+              </select>
+            </div>
+            <p class="error" id="errorPrioridad" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="nota">Nota u opción <span class="opcional">(opcional)</span></label>
+            <textarea id="nota" name="nota" rows="2" maxlength="240"
+                      placeholder="Ej.: Llevar el cuaderno y repasar la página 42"></textarea>
+          </div>
+
+          <div class="acciones-formulario">
+            <button class="btn btn-primario" type="submit" id="btnGuardar">
+              <svg class="ico" aria-hidden="true"><use href="#i-mas"></use></svg>
+              <span id="textoGuardar">Agregar tarea</span>
+            </button>
+            <button class="btn btn-secundario" type="reset" id="btnLimpiar">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- PASO 2: buscar, filtrar y revisar las tareas -->
+      <section class="panel panel-tareas" aria-labelledby="tituloLista">
+        <div class="panel-cabecera panel-cabecera--lista">
+          <span class="icono-panel icono-panel--coral" aria-hidden="true"><svg class="ico"><use href="#i-libro"></use></svg></span>
+          <div>
+            <h2 id="tituloLista">Mis tareas</h2>
+            <p class="panel-subtitulo">Todo bajo control ✨</p>
+          </div>
+          <span class="contador-pill" id="contadorPendientes">Tienes 0 tareas pendientes</span>
+        </div>
+
+        <p class="contador-completadas" id="contadorCompletadas">Tienes 0 tareas completadas</p>
+
+        <div class="herramientas">
+          <div class="campo-busqueda">
+            <label class="sr-only" for="buscar">Buscar tareas por título o materia</label>
+            <div class="input-con-icono">
+              <svg class="ico" aria-hidden="true"><use href="#i-buscar"></use></svg>
+              <input id="buscar" type="search" autocomplete="off" placeholder="Buscar por tarea o materia...">
+            </div>
+          </div>
+
+          <div class="selects">
+            <div class="campo compacto">
+              <label for="filtroEstado">Estado</label>
+              <select id="filtroEstado">
+                <option value="todas">Todas</option>
+                <option value="pendientes">Pendientes</option>
+                <option value="completadas">Completadas</option>
+              </select>
+            </div>
+            <div class="campo compacto">
+              <label for="filtroMateria">Materia</label>
+              <select id="filtroMateria">
+                <option value="">Todas las materias</option>
+              </select>
+            </div>
+            <div class="campo compacto">
+              <label for="ordenar">Ordenar por</label>
+              <select id="ordenar">
+                <option value="fecha">Fecha más cercana</option>
+                <option value="prioridad">Prioridad</option>
+                <option value="recientes">Más recientes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <ul class="lista-tareas" id="listaTareas" tabindex="-1" aria-label="Lista de tareas"></ul>
+
+        <div class="vacio" id="mensajeVacio" hidden>
+          <span class="vacio-icono" aria-hidden="true"><svg class="ico-logo"><use href="#i-olas"></use></svg></span>
+          <p id="textoVacio"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">Guardado en tu navegador · Sin cuentas, sin complicaciones 💛</footer>
+  </div>
+
+  <!-- Avisos breves: aria-live los anuncia a lectores de pantalla -->
+  <div class="aviso" id="aviso" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <noscript>
+    <p class="noscript">ApunteListo necesita JavaScript para guardar tus tareas en el navegador.</p>
+  </noscript>
+
+  <script src="script.js"></script>
+</body>
+</html>
